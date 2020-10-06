@@ -14,8 +14,11 @@ async function getPosts(){
     fetch(`https://jsonplaceholder.typicode.com/posts?_limit=${limit}&_page=${page}`);
     
     const data= await response.json();
+    console.log(data);
+
 
      return data;
+
 //     .then(response =>response.json())
 //     .then(data =>console.log(data))
 //     .catch(err=> console.log('This is an error'))
@@ -26,19 +29,24 @@ async function getPosts(){
 async function showPosts(){
     const posts= await getPosts();
     console.log(posts);
+    let output = ' ';
     posts.forEach(post=>{
-   document.getElementById('post-container').innerHTML =`
-   <div class="post">
-   <div class="number">${post.userId}</div>
-   <div class="post-info">
-       <h2 class="post-title">${post.title}</h2>
-       <p class="post-body">
-       ${post.body}
-       </p>
-   </div> `
-   
-    })
+        
+        output += `
+        <div class="post">
+        <div class="number">${post.userId}</div>
+        <div class="post-info">
+            <h2 class="post-title">${post.title}</h2>
+            <p class="post-body">
+            ${post.body}
+            </p>
+        </div> `;
+})
+
+document.getElementById('post-container').innerHTML = output;
+
 }
+
 //show loading and fetch more posts
 
  function showLoading(){
@@ -51,7 +59,7 @@ async function showPosts(){
       setTimeout(()=>{
           page++;
           showPosts();
-      }, 300);
+      }, 400);
 
      }, 1000);
  }
